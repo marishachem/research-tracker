@@ -1,6 +1,6 @@
 import type { Project, Task, Priority } from "./types"
 
-function createProject(name: string, description?: string): Project{
+export function createProject(name: string, description?: string): Project{
     return {
         id: Date.now(),
         name,
@@ -9,7 +9,7 @@ function createProject(name: string, description?: string): Project{
     }
 }
 
-function createTask(title: string, projectId: number, priority: Priority, dueDate: string): Task{
+export function createTask(title: string, projectId: number, priority: Priority, dueDate: string,managerName:string): Task{
     return {
         id: Date.now(),
         projectId,
@@ -17,10 +17,11 @@ function createTask(title: string, projectId: number, priority: Priority, dueDat
         priority,
         dueDate,
         done: false,
+        managerName,
     }
 }
 
-function isOverdue(task: Task): boolean {
+export function isOverdue(task: Task): boolean {
     const today = new Date().toISOString().slice(0, 10)
     return !task.done && task.dueDate < today
 }
