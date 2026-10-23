@@ -1,16 +1,24 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import type { Task } from "../types"
 import { createTask } from "../utils"
 import TaskCard from "./TaskCard"
 
 function ProjectBoard() {
-    const [tasks, setTasks] = useState<Task[]>([])
+
+    //Lazy initial state loading from localStorage
+    const [tasks, setTasks] = useState<Task[]>(() => {
+        const saved = localStorage.getItem("tasks")
+        return saved ? JSON.parse(saved) : []
+    })
 
     function addTask() {
-        // create a task and add it to state
         const newTask = createTask("Run experiment", 1, "high", "2026-10-25", "Иванов ИИ")
         setTasks([...tasks, newTask]);
     }
+    //useEffect saving on every tasks change
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks))
+    }, [tasks])
 
     return (
         <div>
