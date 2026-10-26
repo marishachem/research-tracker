@@ -25,6 +25,12 @@ function ProjectBoard() {
         setdueDate("")
     }
 
+    function toggleDone(id: number) {
+        setTasks(tasks.map(task =>
+            task.id === id ? { ...task, done: !task.done } : task
+        ))
+    }
+
     //useEffect saving on every tasks change
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks))
@@ -49,7 +55,7 @@ function ProjectBoard() {
 
             {tasks.length === 0 && <p>No tasks yet</p>}
             {tasks.map(task => (
-                <TaskCard key={task.id} task={task} />
+                <TaskCard key={task.id} task={task}  onToggle={toggleDone}/>
             ))}
 
         </div>
