@@ -35,6 +35,15 @@ function ProjectBoard() {
         setTasks(tasks.filter(task => task.id !== id))
     }
 
+    const [filter, setFilter] = useState<"all" | "active" | "done">("all")
+
+    const visibleTasks = tasks.filter(task => {
+        if (filter === "active") return !task.done
+        if (filter === "done") return task.done
+        return true  // "all"
+    })
+
+
     //useEffect saving on every tasks change
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks))
@@ -47,7 +56,6 @@ function ProjectBoard() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
-
                 <select value={priority} onChange={(e) => setPriority(e.target.value as Priority)}>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -56,12 +64,13 @@ function ProjectBoard() {
                 <input type="date" value={dueDate} onChange={(e) => setdueDate(e.target.value)} />
                 <button type="submit">Add task</button>
             </form>
-
+            <button onClick={() => setFilter("all")}>All</button>
+            <button onClick={() => setFilter("active")}>Active</button>
+            <button onClick={() => setFilter("done")}>Done</button>
             {tasks.length === 0 && <p>No tasks yet</p>}
-            {tasks.map(task => (
+            {visibleTasks.map(task => (
                 <TaskCard key={task.id} task={task}  onToggle={toggleDone} onDelete={deleteTask}/>
             ))}
-
         </div>
     )
 }
