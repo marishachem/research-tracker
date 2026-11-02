@@ -5,9 +5,10 @@ import crossIcon from "../assets/cross.svg"
 interface Props {
     task: Task
     onToggle: (id: number) => void
+    onDelete: (id: number) => void
 }
 
-function TaskCard({ task, onToggle }: Props) {
+function TaskCard({ task, onToggle, onDelete }: Props) {
     const overdue = isOverdue(task)
     return (
         <div>
@@ -18,6 +19,7 @@ function TaskCard({ task, onToggle }: Props) {
             {overdue && <p style={{ color: "red" }}>Overdue</p>}
             <p>Manager: {task.managerName}</p>
             <button onClick={() => onToggle(task.id)}>Toggle done</button>
+            <button onClick={() => onDelete(task.id)}>Delete</button>
         </div>
     )
 }

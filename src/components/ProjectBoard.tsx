@@ -31,6 +31,10 @@ function ProjectBoard() {
         ))
     }
 
+    function deleteTask(id: number) {
+        setTasks(tasks.filter(task => task.id !== id))
+    }
+
     //useEffect saving on every tasks change
     useEffect(() => {
         localStorage.setItem("tasks", JSON.stringify(tasks))
@@ -55,7 +59,7 @@ function ProjectBoard() {
 
             {tasks.length === 0 && <p>No tasks yet</p>}
             {tasks.map(task => (
-                <TaskCard key={task.id} task={task}  onToggle={toggleDone}/>
+                <TaskCard key={task.id} task={task}  onToggle={toggleDone} onDelete={deleteTask}/>
             ))}
 
         </div>
